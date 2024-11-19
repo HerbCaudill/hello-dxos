@@ -22,8 +22,8 @@ export const TaskListContainer = () => {
       onInviteClick={async () => {
         void shell.shareSpace({ spaceId: space.id })
       }}
-      onTaskCreate={newTaskTitle => {
-        const task = create(TaskType, { title: newTaskTitle, completed: false })
+      onTaskCreate={title => {
+        const task = create(TaskType, { title, completed: false })
         space.db.add(task)
       }}
       onTaskRemove={task => {
