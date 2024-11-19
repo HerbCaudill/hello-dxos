@@ -2,26 +2,20 @@ import { ClientProvider } from '@dxos/react-client'
 import React from 'react'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { TaskListContainer } from './TaskListContainer'
-import { getConfig } from '../config'
+import { configProvider } from '../config'
 import { TaskType } from '../types'
 import { Home } from './Home'
-
-const router = createBrowserRouter([
-  { path: '/space/:spaceId', element: <TaskListContainer /> },
-  { path: '/', element: <Home /> },
-])
-
-const createWorker = () =>
-  new SharedWorker(new URL('../shared-worker', import.meta.url), {
-    type: 'module',
-    name: 'dxos-client-worker',
-  })
 
 export const App = () => {
   return (
     <ClientProvider
-      config={getConfig}
-      createWorker={createWorker}
+      config={configProvider}
+      createWorker={() =>
+        new SharedWorker(new URL('../shared-worker', import.meta.url), {
+          type: 'module',
+          name: 'dxos-client-worker',
+        })
+      }
       shell="./shell.html"
       types={[TaskType]}
       onInitialized={async client => {
@@ -31,7 +25,12 @@ export const App = () => {
         }
       }}
     >
-      <RouterProvider router={router} />
+      <RouterProvider
+        router={createBrowserRouter([
+          { path: '/space/:spaceId', element: <TaskListContainer /> },
+          { path: '/', element: <Home /> },
+        ])}
+      />
     </ClientProvider>
   )
 }
