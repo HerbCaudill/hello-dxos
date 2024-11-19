@@ -21,7 +21,7 @@
     "strict": true,
     "stripInternal": true,
     "target": "ES2018",
-    "types": ["node", "sharedworker"]
+    "types": ["node"]
   },
   "exclude": ["vite.config.ts"],
   "include": ["src"],
