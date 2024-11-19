@@ -8,7 +8,7 @@
     "build": "tsc --noEmit && vite build",
     "deploy": "dx app publish",
     "preview": "vite preview",
-    "dev": "vite"
+    "dev": "vite --open"
   },
   "dependencies": {
     "@dxos/config": "^0.6.13",
