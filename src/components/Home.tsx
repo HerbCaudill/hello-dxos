@@ -4,32 +4,36 @@ import React, { useEffect } from 'react'
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 
 export const Home = () => {
+  const navigate = useNavigate()
   const space = useSpace()
   const shell = useShell()
+
   const [search, setSearchParams] = useSearchParams()
-  const invitationCode = search.get('spaceInvitationCode')
+  const spaceInvitationCode = search.get('spaceInvitationCode')
   const deviceInvitationCode = search.get('deviceInvitationCode')
-  const navigate = useNavigate()
 
   useEffect(() => {
+    const removeParam = (key: string) => {
+      setSearchParams(p => {
+        p.delete(key)
+        return p
+      })
+    }
+
     if (deviceInvitationCode) {
-      setSearchParams(p => {
-        p.delete('deviceInvitationCode')
-        return p
-      })
-    } else if (invitationCode) {
-      setSearchParams(p => {
-        p.delete('spaceInvitationCode')
-        return p
-      })
-      void (async () => {
-        const { space } = await shell.joinSpace({ invitationCode })
+      removeParam('deviceInvitationCode')
+    } else if (spaceInvitationCode) {
+      removeParam('spaceInvitationCode')
+
+      const joinSpace = async () => {
+        const { space } = await shell.joinSpace({ invitationCode: spaceInvitationCode })
         if (space) {
           navigate(`/space/${space.id}`)
         }
-      })()
+      }
+      void joinSpace()
     }
-  }, [invitationCode, deviceInvitationCode])
+  }, [spaceInvitationCode, deviceInvitationCode])
 
   return space ? <Navigate to={`/space/${space.id}`} /> : null
 }
