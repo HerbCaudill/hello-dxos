@@ -4,15 +4,6 @@ import { nonNullable } from '@dxos/util'
 
 import { type TaskType } from './types'
 
-export type TaskListProps = {
-  tasks?: TaskType[]
-  onInviteClick?: () => any
-  onTaskCreate?: (text: string) => any
-  onTaskRemove?: (task: TaskType) => any
-  onTaskTitleChange?: (task: TaskType, newTitle: string) => any
-  onTaskCheck?: (task: TaskType, checked: boolean) => any
-}
-
 export const TaskList = (props: TaskListProps) => {
   const { tasks, onInviteClick, onTaskCreate, onTaskRemove, onTaskTitleChange, onTaskCheck } = props
 
@@ -21,10 +12,8 @@ export const TaskList = (props: TaskListProps) => {
   const [showDeleteTask, setShowDeleteTask] = useState<number | null>(null)
 
   const newTask = () => {
-    if (!newTaskTitle) {
-      return
-    }
-    onTaskCreate?.(newTaskTitle)
+    if (!newTaskTitle) return
+    onTaskCreate(newTaskTitle)
     setNewTaskTitle('')
   }
 
@@ -55,7 +44,7 @@ export const TaskList = (props: TaskListProps) => {
                   className="mr-2 rounded shadow hover:pointer-cursor"
                   type="checkbox"
                   checked={task.completed}
-                  onChange={e => onTaskCheck?.(task, e.target.checked)}
+                  onChange={e => onTaskCheck(task, e.target.checked)}
                 />
                 <div className="hover:pointer-cursor flex-grow" onClick={() => setEditingTask(index)}>
                   {editingTask === index ? (
@@ -65,7 +54,7 @@ export const TaskList = (props: TaskListProps) => {
                         type="text"
                         value={task.title}
                         onChange={e => {
-                          onTaskTitleChange?.(task, e.target.value)
+                          onTaskTitleChange(task, e.target.value)
                         }}
                         onKeyUp={e => {
                           if (e.key === 'Enter') {
@@ -82,7 +71,7 @@ export const TaskList = (props: TaskListProps) => {
                 {showDeleteTask === index && (
                   <button
                     className="bg-white rounded ml-2 p-0 px-2 hover:bg-gray-100 hover:cursor-pointer shadow border border-gray-400 active:bg-gray-200"
-                    onClick={() => onTaskRemove?.(task)}
+                    onClick={() => onTaskRemove(task)}
                   >
                     Delete
                   </button>
@@ -115,4 +104,13 @@ export const TaskList = (props: TaskListProps) => {
       </div>
     </div>
   )
+}
+
+export type TaskListProps = {
+  tasks: TaskType[]
+  onInviteClick: () => any
+  onTaskCreate: (text: string) => any
+  onTaskRemove: (task: TaskType) => any
+  onTaskTitleChange: (task: TaskType, newTitle: string) => any
+  onTaskCheck: (task: TaskType, checked: boolean) => any
 }
