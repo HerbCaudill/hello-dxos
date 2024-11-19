@@ -9,9 +9,9 @@ import { TaskList } from './TaskList'
 import { TaskType } from '../types'
 
 export const TaskListContainer = () => {
-  const { spaceKey } = useParams<{ spaceKey: string }>()
+  const { spaceId } = useParams<{ spaceId: string }>()
 
-  const space = useSpace(spaceKey)
+  const space = useSpace(spaceId)
   const tasks = useQuery<TaskType>(space, Filter.schema(TaskType))
   const shell = useShell()
 

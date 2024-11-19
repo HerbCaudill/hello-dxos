@@ -4,15 +4,15 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { TaskListContainer } from './TaskListContainer'
 import { getConfig } from '../config'
 import { TaskType } from '../types'
-import { Home } from '../Home'
+import { Home } from './Home'
 
 const router = createBrowserRouter([
-  { path: '/space/:spaceKey', element: <TaskListContainer /> },
+  { path: '/space/:spaceId', element: <TaskListContainer /> },
   { path: '/', element: <Home /> },
 ])
 
 const createWorker = () =>
-  new SharedWorker(new URL('./shared-worker', import.meta.url), {
+  new SharedWorker(new URL('../shared-worker', import.meta.url), {
     type: 'module',
     name: 'dxos-client-worker',
   })
