@@ -1,7 +1,3 @@
-# Tasks
-
-## Development
-
 ```bash
-pnpm -w nx run tasks:serve
+npm run dev
 ```
