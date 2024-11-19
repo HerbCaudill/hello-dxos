@@ -1,0 +1,36 @@
+{
+  "name": "tasks",
+  "version": "0.1.0",
+  "description": "tasks - a DXOS application",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit && vite build",
+    "deploy": "dx app publish",
+    "preview": "vite preview",
+    "dev": "vite"
+  },
+  "dependencies": {
+    "@dxos/config": "^0.6.13",
+    "@dxos/echo-schema": "^0.6.13",
+    "@dxos/react-client": "^0.6.13",
+    "@dxos/shell": "^0.6.13",
+    "@dxos/util": "^0.6.13",
+    "@phosphor-icons/react": "^2.1.5",
+    "react": "~18.2.0",
+    "react-dom": "~18.2.0",
+    "react-router-dom": "^6.4.0"
+  },
+  "devDependencies": {
+    "@types/react": "~18.2.0",
+    "@types/react-dom": "~18.2.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.12",
+    "postcss": "^8.4.41",
+    "tailwindcss": "~3.4.1",
+    "vite": "5.4.7",
+    "vite-plugin-top-level-await": "^1.4.1",
+    "vite-plugin-wasm": "^3.3.0",
+    "workbox-window": "^7.0.0"
+  }
+}
