@@ -1,15 +1,10 @@
-//
-// Copyright 2023 DXOS.org
-//
+import path from 'path'
 
-/* postcss.config.js */
-const path = require('path');
-
-module.exports = {
+export default {
   plugins: {
     tailwindcss: {
-      config: path.join(__dirname, 'tailwind.config.js'),
+      config: path.join(path.dirname(new URL(import.meta.url).pathname), 'tailwind.config.js'),
     },
     autoprefixer: {},
   },
-};
+}
