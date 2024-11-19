@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { nonNullable } from '@dxos/util'
 
-import { type TaskType } from './types'
+import { type TaskType } from '../types'
 
 export const TaskList = (props: TaskListProps) => {
   const { tasks, onInviteClick, onTaskCreate, onTaskRemove, onTaskTitleChange, onTaskCheck } = props

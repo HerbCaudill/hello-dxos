@@ -2,9 +2,9 @@ import { ClientProvider } from '@dxos/react-client'
 import React from 'react'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { TaskListContainer } from './TaskListContainer'
-import { getConfig } from './config'
-import { TaskType } from './types'
-import { Home } from './Home'
+import { getConfig } from '../config'
+import { TaskType } from '../types'
+import { Home } from '../Home'
 
 const router = createBrowserRouter([
   { path: '/space/:spaceKey', element: <TaskListContainer /> },

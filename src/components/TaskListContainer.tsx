@@ -6,7 +6,7 @@ import { useShell } from '@dxos/react-client'
 import { Filter, useQuery, useSpace } from '@dxos/react-client/echo'
 
 import { TaskList } from './TaskList'
-import { TaskType } from './types'
+import { TaskType } from '../types'
 
 export const TaskListContainer = () => {
   const { spaceKey } = useParams<{ spaceKey: string }>()
