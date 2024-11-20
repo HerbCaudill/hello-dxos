@@ -1,36 +1,39 @@
-import { ClientProvider } from '@dxos/react-client'
+import { create } from '@dxos/echo-schema'
+import { useShell } from '@dxos/react-client'
+import { Filter, useQuery, useSpace } from '@dxos/react-client/echo'
 import React from 'react'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { TaskListContainer } from './TaskListContainer'
-import { configProvider } from '../config'
+import { useParams } from 'react-router-dom'
 import { TaskType } from '../types'
-import { Home } from './Home'
+import { TaskList } from './TaskList'
 
 export const App = () => {
+  const { spaceId } = useParams<{ spaceId: string }>()
+  const space = useSpace(spaceId)
+  const tasks = useQuery<TaskType>(space, Filter.schema(TaskType))
+  const shell = useShell()
+
+  if (space === undefined) return null
+  const { db } = space
+
   return (
-    <ClientProvider
-      config={configProvider}
-      createWorker={() =>
-        new SharedWorker(new URL('../shared-worker', import.meta.url), {
-          type: 'module',
-          name: 'dxos-client-worker',
-        })
-      }
-      shell="./shell.html"
-      types={[TaskType]}
-      onInitialized={async client => {
-        const searchParams = new URLSearchParams(location.search)
-        if (!client.halo.identity.get() && !searchParams.has('deviceInvitationCode')) {
-          await client.halo.createIdentity()
-        }
+    <TaskList
+      tasks={tasks}
+      onInviteClick={async () => {
+        void shell.shareSpace({ spaceId: space.id })
       }}
-    >
-      <RouterProvider
-        router={createBrowserRouter([
-          { path: '/space/:spaceId', element: <TaskListContainer /> },
-          { path: '/', element: <Home /> },
-        ])}
-      />
-    </ClientProvider>
+      onTaskCreate={title => {
+        const task = create(TaskType, { title, completed: false })
+        db.add(task)
+      }}
+      onTaskRemove={task => {
+        db.remove(task)
+      }}
+      onTaskTitleChange={(task, newTitle) => {
+        task.title = newTitle
+      }}
+      onTaskCheck={(task, checked) => {
+        task.completed = checked
+      }}
+    />
   )
 }

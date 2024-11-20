@@ -3,7 +3,7 @@ import { useSpace } from '@dxos/react-client/echo'
 import React, { useEffect } from 'react'
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 
-export const Home = () => {
+export const Root = () => {
   const navigate = useNavigate()
   const space = useSpace()
   const shell = useShell()
